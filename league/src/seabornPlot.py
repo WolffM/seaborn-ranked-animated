@@ -183,7 +183,7 @@ def createFig():
             layer="below"
         )
     ])
-    fig.update_layout(width=1920, height=1080)
+    fig.update_layout(width=1536, height=864)
     fig.update_layout(xaxis_title="GameId", yaxis_title="TotalLp", title_text="Ranked Climb to Masters!")
     fig.update_layout(
         plot_bgcolor="#333333", # Set the background color to dark grey
