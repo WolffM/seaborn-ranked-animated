@@ -4,8 +4,11 @@ import csv
 from datetime import datetime
 from ex import basePath, rankedPath, rankedPath2022, myPIIDs, src_folder, dst_folder, csvFileName
 
-#             0         1         2          3          4         5       6         7          8             9                 10              11        12
-headers = ['GameId', 'Date', 'Duration', 'TeamId', 'Champion', 'Role', 'Kills', 'Assists', 'Deaths', 'LongestTimeAlive', 'TotalHealing', 'WardsKilled', 'Win']
+#             0         1         2          3          4         5       6         7          8             9                 10              11        12        13          14
+headers = ['GameId', 'Date', 'Duration', 'TeamId', 'Champion', 'Role', 'Kills', 'Assists', 'Deaths', 'LongestTimeAlive', 'TotalHealing', 'WardsKilled', 'Win', 'TotalLp', 'CurrentRank']
+patchDates = ['2022-01-11', '2022-01-25', '2022-02-08', '2022-02-23', '2022-03-08', '2022-03-22', '2022-04-05', '2022-04-19', '2022-05-03', '2022-05-17', '2022-06-01', '2022-06-14', '2022-06-28', '2022-07-19', '2022-08-02', '2022-08-16', '2022-08-30', '2022-09-13', '2022-09-27', '2022-10-11', '2022-10-25', '2022-11-08', '2022-11-21', '2022-12-06']
+dateformatRiot = f'%Y-%m-%d %H:%M:%S'
+dateformatPatch = f'%Y-%m-%d'
 
 def moveRankedMatches():
     # Iterate over the files in the source folder
@@ -89,7 +92,7 @@ def writeDataToCSV():
             # Open the file and read the contents
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            date = datetime.fromtimestamp(data['gameCreation'] / 1000)
+            date = datetime.fromtimestamp(data['gameCreation'] / 1000).strftime(dateformatRiot)
             duration = data['gameDuration']
             gameId+=1
             # Check the condition on the object
@@ -119,7 +122,7 @@ def writeDataToCSV():
                     else:
                         print(f"What is: {championName} {role} {lane}")
 
-                    row=[gameId, date, duration, teamId, championName, position, kills, assists, deaths, longestTimeSpentLiving, totalHeal, wardsKilled, win]
+                    row=[gameId*2, date, duration, teamId, championName, position, kills, assists, deaths, longestTimeSpentLiving, totalHeal, wardsKilled, win]
                     writer.writerow(row)
                     break
 def readCSV():
@@ -131,38 +134,35 @@ def readCSV():
         next(reader)
         data = list(reader)
 
-        #max counters
-        maxKills = ["", 0]
-        maxDeaths = ["", 0]
-        maxAssists = ["", 0]
-        maxLiving = ["", 0]
-        maxHealing = ["", 0]
-        maxWardsKilled = ["", 0]
-        maxDuration = ["", 0]
-        minDuration = ["", 100000]
-        maxLossStreak = ["", 0]
-        maxWinStreak = ["", 0]
+        patchResults = []
 
         # Initialize the sum
         totalLp = 301
         totalLpGraph = 301
+        patchLp = 0
         rankLp = 301
         divsionLp = 1
         currentDivision = 1
         currentRank = 1
         currentGameCount = 0
         totalGameCount = 0
+        currentPatch = 0
+        patchStartX = 0
+        patchGamesPlayed = 0
 
         prev_row = None
         # Iterate over the rows in the CSV file
         for row in data:
             currentGameCount+=1
             totalGameCount+=1
+            patchGamesPlayed+=1
+
             if row[12] == "True":
                 divsionLp+=15
                 totalLpGraph+=15
                 rankLp+=15
                 totalLp+=15
+                patchLp+=15
                 if(rankLp >= 400):
                     currentDivision = 4
                     divsionLp = rankLp-400
@@ -179,6 +179,7 @@ def readCSV():
                 divsionLp-=15
                 rankLp-=15
                 totalLp-=15
+                patchLp-=15
                 if((totalLp+15 >= 400) and (totalLp+15 < 415)):
                     totalLpGraph = 400
                 elif((totalLp+15 >= 800) and (totalLp+15 < 815)):
@@ -200,12 +201,24 @@ def readCSV():
                     currentDivision+=1
                     divsionLp = 100+divsionLp
                     #print(f"Dropped Divison... now: {currentRank}.{currentDivision}")
+            if datetime.strptime(row[1], dateformatRiot).date() > datetime.strptime(patchDates[currentPatch], dateformatPatch).date():
+                patchResults.append({'PatchName':f'13.{currentPatch}', 'Start':int(patchStartX), 'End':int(row[0])-1, 'LpChange':patchLp, 'GamesPlayed':patchGamesPlayed})
+                currentPatch+=1
+                patchGamesPlayed = 0
+                patchLp = 0
+                patchStartX = row[0]
+
+
             row.append(totalLpGraph)
+            row.append(f"{currentRank}.{currentDivision}")
+
         print(f"Total lp:{totalLpGraph}")
     with open("output2.csv", "w", newline="") as g:
         writer = csv.writer(g)
         for row in data:
             writer.writerow(row)
+    with open("patchResults.json", "w") as k:
+        json.dump(patchResults, k)
             
 #if(not(prev_row == None)):
 
