@@ -16,181 +16,47 @@ master_tag = 'Emblem_Master.png'
 
 def createFig():
     fig = subplots.make_subplots()
-    fig.update_layout(shapes=[
-        go.layout.Shape(
+    
+    colors = ['#E6D115', '#057853', '#3239bf', "#AA45CC"]
+    opacities = [.8,.9,.6,.7,.8,.9,.6,.7,.8,.9,.6,.7]
+    
+    y_values = list(range(200, 1301, 100))
+    
+    for i in range(len(y_values)):
+        if i < 2:
+            fillcolor_index = 0
+        elif i < 6:
+            fillcolor_index = 1
+        elif i < 10:
+            fillcolor_index = 2
+        else:
+            fillcolor_index = 3
+        
+        fig.add_shape(
             type='rect',
             xref='paper',
             yref='y',
             x0=0,
-            y0=200,
+            y0=y_values[i],
             x1=1,
-            y1=300,
-            fillcolor='#E6D115', #gold2
-            line=dict(
-                width=0
-            ),
-            opacity=0.8,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=300,
-            x1=1,
-            y1=400,
-            fillcolor='#E6D115', #gold1
-            line=dict(
-                width=0
-            ),
-            opacity=0.9,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=400,
-            x1=1,
-            y1=500,
-            fillcolor='#057853', #plat4
-            line=dict(
-                width=0
-            ),
-            opacity=0.6,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=500,
-            x1=1,
-            y1=600,
-            fillcolor='#057853', #plat3
-            line=dict(
-                width=0
-            ),
-            opacity=0.7,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=600,
-            x1=1,
-            y1=700,
-            fillcolor='#057853', #plat2
-            line=dict(
-                width=0
-            ),
-            opacity=0.8,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=700,
-            x1=1,
-            y1=800,
-            fillcolor='#057853', #plat1
-            opacity=0.9,
-            line=dict(
-                width=0
-            ),
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=800,
-            x1=1,
-            y1=900,
-            fillcolor='#3239bf', #diamond4
-            line=dict(
-                width=0
-            ),
-            opacity=0.6,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=900,
-            x1=1,
-            y1=1000,
-            fillcolor='#3239bf', #diamond3
-            line=dict(
-                width=0
-            ),
-            opacity=0.7,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=1000,
-            x1=1,
-            y1=1100,
-            fillcolor='#3239bf', #diamond2
-            line=dict(
-                width=0
-            ),
-            opacity=0.8,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=1100,
-            x1=1,
-            y1=1200,
-            fillcolor='#3239bf', #diamond1
-            line=dict(
-                width=0
-            ),
-            opacity=0.9,
-            layer="below"
-        ),
-        go.layout.Shape(
-            type='rect',
-            xref='paper',
-            yref='y',
-            x0=0,
-            y0=1200,
-            x1=1,
-            y1=1350,
-            fillcolor="#AA45CC", #master
-            line=dict(
-                width=0
-            ),
-            opacity=0.7,
+            y1=y_values[i]+100,
+            fillcolor=colors[fillcolor_index],
+            line=dict(width=0),
+            opacity=opacities[i],
             layer="below"
         )
-    ])
+        
     fig.update_layout(width=1536, height=864)
     fig.update_layout(xaxis_title="GameId", yaxis_title="TotalLp", title_text="Ranked Climb to Masters!")
     fig.update_layout(
-        plot_bgcolor="#333333", # Set the background color to dark grey
-        paper_bgcolor="#333333", # Set the paper background color to dark grey
-        font_color="#FFFFFF" # Set the font color to white
+        plot_bgcolor="#333333",
+        paper_bgcolor="#333333",
+        font_color="#FFFFFF",
+        yaxis=dict(tickmode="linear", dtick=100)
     )
+    
     return fig
+
 def addPatchLines():
     d=""    
 def makePlot(filename):
@@ -221,7 +87,7 @@ def makePlot(filename):
 
         minX = 1000
         minY = 1000
-        maxX = 10
+        maxX = 50
         maxY = 400
 
         maxLoss = 0
@@ -232,21 +98,21 @@ def makePlot(filename):
 
         prevY = 0
         prevColor = defaultColor
-        currentSize = 5
+        currentSize = 5.0
         currentStreak = 1.0
 
         for row in reader:
             x = int(row[0])
             y = int(row[13])
 
-            #if(x>834):
+            #if(x>836):
             #    break
             #if(x>1242):
             #    break
             if prevY !=0:
                 if row[12] == 'True':
                     if prevColor == winColor:
-                        currentStreak+=.3
+                        currentStreak+=.5
                     else:
                         currentStreak=1
                     markerColors.append(winColor)
@@ -256,7 +122,7 @@ def makePlot(filename):
                         maxWin=currentStreak
                 else:
                     if prevColor == loseColor:
-                        currentStreak+=.3
+                        currentStreak+=.5
                     else:
                         currentStreak=1
                     markerColors.append(loseColor)
@@ -267,37 +133,41 @@ def makePlot(filename):
 
             prevY = y
             if x < minX:
-                minX = x-2
+                minX = x-1
             elif x > maxX:
-                maxX = x+2
-            if y < minY:
-                minY = y-50
-            elif y > maxY:
-                maxY = y+50
-            #if maxY-minY>500:
-            #    minY = maxY-500
-            #if maxX-minX>300:
-            #    minX = maxX-300
+                maxX = x+1
+            if y < (minY-10):
+                minY = y-20
+            elif y > (maxY-10):
+                maxY = y+20
+            #Move drop old X axis values 
+            if maxY-minY>600:
+                minY = maxY-600
+            if maxX-minX>150:
+                minX = maxX-150
+
             x_values.append(x)
             y_values.append(y)
-            frames.append(go.Frame(data=[go.Scatter(x=x_values, y=y_values, 
-                                            mode='lines+markers', 
-                                            name='main',
-                                            showlegend=True,
-                                            line=dict(color='#F2EBE9', width=4),
-                                            marker=dict(size=sizes, color=markerColors))],
-                                    layout=go.Layout(
-                                            xaxis=dict(range=[minX, maxX]), 
-                                            yaxis=dict(range=[minY, maxY]),
-                                    annotations=[go.layout.Annotation(
-                                            text=f"{row[14]}   +{row[13]} lp", 
-                                            x=1, 
-                                            y=0, 
-                                            xref='paper', 
-                                            yref='paper', 
-                                            align='right', 
-                                            font=dict(size=24),
-                                            showarrow=False)])))
+            frames.append(go.Frame(
+                data=[go.Scatter(
+                    x=x_values, y=y_values, 
+                    mode='lines+markers', 
+                    name='main',
+                    showlegend=False,
+                    line=dict(color='#F2EBE9', width=4),
+                    marker=dict(size=sizes, color=markerColors))],
+                layout=go.Layout(
+                    xaxis=dict(range=[minX, maxX]), 
+                    yaxis=dict(range=[minY, maxY]),
+                    annotations=[go.layout.Annotation(
+                    text=f"{row[14]}   +{row[13]} lp", 
+                    x=1, 
+                    y=0, 
+                    xref='paper', 
+                    yref='paper', 
+                    align='right', 
+                    font=dict(size=24),
+                    showarrow=False)])))
     # Add trace
     fig.add_trace(go.Scatter(x=x_values, y=y_values, mode='lines', name='lines'))
 
@@ -311,19 +181,26 @@ def makePlot(filename):
     )
 
     fig.update_layout(
-        updatemenus=[dict(buttons = [dict(
-                                    args = [None, {"frame": {"duration": 75, 
-                                                            "redraw": False},
-                                                    "fromcurrent": True, 
-                                                    "transition": {"duration": 1}}],
-                                    label = "Play",
-                                    method = "animate")],
-                    type='buttons',
-                    showactive=False,
-                    y=1,
-                    x=1.12,
-                    xanchor='right',
-                    yanchor='top')])
+        updatemenus=[dict(
+            buttons = [dict(
+                args = [None, {
+                    "frame": {
+                        "duration": 110, 
+                        "redraw": True},
+                    "fromcurrent": True, 
+                    "transition": {
+                        "duration": 80,  # duration of transition in ms
+                        "easing": "linear"  # easing function for transition
+                        }
+                    }],
+                label = "Play",
+                method = "animate")],
+        type='buttons',
+        showactive=False,
+        y=1,
+        x=1,
+        xanchor='right',
+        yanchor='bottom')])
     
     # Display the plot
     fig.show()
