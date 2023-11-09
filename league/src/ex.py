@@ -5,9 +5,9 @@ api_key = "RGAPI-REDACTED"
 summoner_name = "Hadoku"
 
 # Set the paths to the source and destination folders
-basePath = "../league/Hadoku/match"
-rankedPath = "../league/Hadoku/rankedMatches"
-rankedPath2022 = "../league/Hadoku/rankedMatches2022"
+basePath = "../Assets/Hadoku/match"
+rankedPath = "../Assets/Hadoku/rankedMatches"
+rankedPath2022 = "../Assets/Hadoku/rankedMatches2022"
 
 csvFileName = "output.csv"
 

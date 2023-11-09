@@ -2,7 +2,7 @@ import os
 import json
 
 # Set the path to the folder containing the JSON files
-folder_path = "league\Hadoku\match"
+folder_path = "league\Assets\Hadoku\match"
 
 # Iterate over the files in the folder
 for file_name in os.listdir(folder_path):
