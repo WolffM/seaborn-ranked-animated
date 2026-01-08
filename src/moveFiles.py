@@ -2,7 +2,7 @@ import os
 import json
 import csv
 from datetime import datetime
-from ex import basePath, rankedPath, rankedPath2022, myPIIDs, src_folder, dst_folder, csvFileName
+from ex import src_folder, dst_folder, csvFileName
 
 #             0         1         2          3          4         5       6         7          8             9                 10              11        12        13          14
 headers = ['GameId', 'Date', 'Duration', 'TeamId', 'Champion', 'Role', 'Kills', 'Assists', 'Deaths', 'LongestTimeAlive', 'TotalHealing', 'WardsKilled', 'Win', 'TotalLp', 'CurrentRank']
