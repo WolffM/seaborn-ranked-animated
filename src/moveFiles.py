@@ -7,8 +7,8 @@ from ex import src_folder, dst_folder, csvFileName
 #             0         1         2          3          4         5       6         7          8             9                 10              11        12        13          14
 headers = ['GameId', 'Date', 'Duration', 'TeamId', 'Champion', 'Role', 'Kills', 'Assists', 'Deaths', 'LongestTimeAlive', 'TotalHealing', 'WardsKilled', 'Win', 'TotalLp', 'CurrentRank']
 patchDates = ['2022-01-11', '2022-01-25', '2022-02-08', '2022-02-23', '2022-03-08', '2022-03-22', '2022-04-05', '2022-04-19', '2022-05-03', '2022-05-17', '2022-06-01', '2022-06-14', '2022-06-28', '2022-07-19', '2022-08-02', '2022-08-16', '2022-08-30', '2022-09-13', '2022-09-27', '2022-10-11', '2022-10-25', '2022-11-08', '2022-11-21', '2022-12-06']
-dateformatRiot = f'%Y-%m-%d %H:%M:%S'
-dateformatPatch = f'%Y-%m-%d'
+dateformatRiot = '%Y-%m-%d %H:%M:%S'
+dateformatPatch = '%Y-%m-%d'
 
 def moveRankedMatches():
     # Iterate over the files in the source folder
@@ -78,7 +78,7 @@ def removeInfo():
             g.close()
 def writeDataToCSV():
     # Initialize an empty list to store the data
-    print(f"Starting writeDataToCSV.")
+    print("Starting writeDataToCSV.")
     print(f"Source Folder: {src_folder}")
     writer = csv.writer(open("output.csv", "w", newline=""))
     writer.writerow(headers)
