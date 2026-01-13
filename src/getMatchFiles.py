@@ -29,13 +29,13 @@ for match_id in match_ids:
     response = requests.get(url, headers=headers)
     # Check the status code of the response
     if response.status_code == 200:
-        print(f"Success, writing file.")
+        print("Success, writing file.")
         # The request was successful, so parse the response data
         data = response.json()
         # Write the data to a JSON file
         with open(f"{match_id}.json", "w") as f:
             json.dump(data, f)
-        print(f"File Write complete.")
+        print("File Write complete.")
     else:
         # There was an error with the request, so print the status code and the error message
         print(f"Error: {response.status_code} {response.text}")
