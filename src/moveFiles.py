@@ -42,7 +42,7 @@ def moveMatches2022():
             # Check the value of the desired key
             gameVersion = data["info"]["gameVersion"] if "info" in data else data["gameVersion"]
             if gameVersion.startswith('12.'):
-                if(not(gameVersion.startswith('12.22') or gameVersion.startswith('12.23'))):
+                if not (gameVersion.startswith('12.22') or gameVersion.startswith('12.23')):
                     # The value matches, so move the file to the destination folder
                     os.rename(file_path, os.path.join(dst_folder, file_name))
 def removeInfo():
