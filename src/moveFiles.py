@@ -40,11 +40,11 @@ def moveMatches2022():
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
             # Check the value of the desired key
-            game_version = data["info"]["gameVersion"] if "info" in data else data["gameVersion"]
-            if game_version.startswith('12.'):
-                if(not(game_version.startswith('12.22') or game_version.startswith('12.23'))):
-                    # The value matches, so move the file to the destination folder
-                    os.rename(file_path, os.path.join(dst_folder, file_name))
+            info = data.get("info")
+            game_version = info.get("gameVersion") if isinstance(info, dict) else data.get("gameVersion")
+            if game_version and game_version.startswith('12.') and not (game_version.startswith('12.22') or game_version.startswith('12.23')):
+                # The value matches, so move the file to the destination folder
+                os.rename(file_path, os.path.join(dst_folder, file_name))
 def removeInfo():
     # Iterate over the files in the source folder
     for file_name in os.listdir(src_folder):
