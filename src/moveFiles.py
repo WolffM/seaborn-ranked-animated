@@ -41,7 +41,9 @@ def moveMatches2022():
                 data = json.load(f)
             # Check the value of the desired key
             info = data.get("info")
-            game_version = info.get("gameVersion") if isinstance(info, dict) else data.get("gameVersion")
+            game_version = info.get("gameVersion") if isinstance(info, dict) else None
+            if game_version is None:
+                game_version = data.get("gameVersion")
             if game_version and game_version.startswith('12.') and not (game_version.startswith('12.22') or game_version.startswith('12.23')):
                 # The value matches, so move the file to the destination folder
                 os.rename(file_path, os.path.join(dst_folder, file_name))
