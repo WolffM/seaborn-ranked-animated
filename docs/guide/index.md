@@ -29,6 +29,8 @@ that CSV step and then hands off to `src/seabornPlot.py`'s animated line
 plot — the climb from one rank to the next, shaded gold/emerald/platinum/diamond
 by LP band — titled, in the code itself, "Ranked Climb to Masters!"
 
+![The finished chart: an LP line climbing from gold through emerald and platinum/diamond into master-plus purple, one point per game](../../Assets/full.png)
+
 An earlier Plotly version (`plot.py`, unused by `main.py`) drew the same
 bands as colored rectangles behind a static chart instead of an animated
 line.

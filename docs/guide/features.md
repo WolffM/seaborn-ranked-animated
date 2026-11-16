@@ -6,10 +6,10 @@ here is a running service.
 ## Match data pipeline
 
 **What it does.** Fetches a summoner's ranked solo-queue (`queueId 420`)
-match history from the Riot Games API, one JSON file per game, then
-filters and flattens it into a single CSV: game id, date, duration,
-champion, role, kills/assists/deaths, wards, win/loss, and the resulting
-League Points total.
+match history from the Riot Games API, one JSON file per game. It then
+filters and flattens that history into a single CSV: game id, date,
+duration, champion, role, kills/assists/deaths, wards, win/loss, and the
+resulting League Points total.
 
 **How to use it.** `src/makeRequest.py` / `src/getMatchFiles.py` fetch the
 raw match JSON for the match IDs in `src/matchlist.py`; `src/moveFiles.py`

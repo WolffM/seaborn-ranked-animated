@@ -14,7 +14,7 @@ The best facts about this repo, each with its source.
   name (`bb27d20`, `d8dfcee`).
 - After 778 days with no commits (`55b7a2d` to `65cb46c`), the next
   commit added 198 more match-history JSON files rather than fixing
-  anything (`65cb46c`); only the eight commits after that were automated
-  maintenance — an automated README tagline (2026-01-05), a lint
+  anything (`65cb46c`). Only the eight commits after that were automated
+  maintenance: an automated README tagline (2026-01-05), a lint
   workflow added and later removed, and two automated lint fixes
   (2026-01-07, 2026-01-13).

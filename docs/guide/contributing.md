@@ -6,6 +6,14 @@ the only automation it has ever had (a lint workflow) was removed in
 
 ## Layout
 
+Three stages hand data to each other in sequence:
+
+```mermaid
+flowchart LR
+    A["makeRequest.py / getMatchFiles.py: raw match JSON"] --> B["moveFiles.py: filters, writes the CSV"]
+    B --> C["seabornPlot.py: animated line chart"]
+```
+
 | Path | What it is |
 | --- | --- |
 | `src/makeRequest.py`, `src/getMatchFiles.py` | Riot API calls that fetch raw match JSON |
