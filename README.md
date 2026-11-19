@@ -1,5 +1,7 @@
 # riotdata
 
+**Guide:** [overview](docs/guide/index.md) · [features](docs/guide/features.md) · [contributing](docs/guide/contributing.md) · [history](docs/guide/history.md) · [trivia](docs/guide/trivia.md)
+
 > Animated League of Legends ranked climb visualizations using Riot API, Plotly, and Seaborn
 
 Created an ranked climb animation using plotly, pands, riot api, seaborn, and a few miscellaneous assets.
